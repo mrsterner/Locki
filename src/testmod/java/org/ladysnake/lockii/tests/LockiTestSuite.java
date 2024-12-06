@@ -40,7 +40,7 @@ import static org.ladysnake.elmendorf.ByteBufChecker.any;
 public class LockiTestSuite implements FabricGameTest {
     public static final InventoryLock lock = Locki.registerLock(Lockii.id("test_suite"));
 
-    @GameTest(structureName = EMPTY_STRUCTURE)
+    @GameTest(templateName = EMPTY_STRUCTURE)
     public void checkPermission(TestContext ctx) {
         ServerPlayerEntity player = ctx.spawnServerPlayer(0, 0, 0);
 
@@ -69,18 +69,18 @@ public class LockiTestSuite implements FabricGameTest {
         ctx.complete();
     }
 
-    @GameTest(structureName = EMPTY_STRUCTURE)
+    @GameTest(templateName = EMPTY_STRUCTURE)
     public void lockingPreventsItemPickup(TestContext ctx) {
         ServerPlayerEntity player = ctx.spawnServerPlayer(1, 0, 1);
         player.getInventory().addLock(lock, DefaultInventoryNodes.INVENTORY);
-        ctx.spawnItemEntity(Items.DIAMOND, 1, 1, 2);
+        ctx.spawnItem(Items.DIAMOND, 1, 1, 2);
         ctx.expectEntity(EntityType.ITEM);
         player.playerTick();
         ctx.expectEntity(EntityType.ITEM);
         ctx.complete();
     }
 
-    @GameTest(structureName = EMPTY_STRUCTURE)
+    @GameTest(templateName = EMPTY_STRUCTURE)
     public void lockingPreventsDropFromMainHand(TestContext ctx) {
         ServerPlayerEntity player = ctx.spawnServerPlayer(1, 0, 1);
         player.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.ENCHANTED_GOLDEN_APPLE));
@@ -99,17 +99,17 @@ public class LockiTestSuite implements FabricGameTest {
         ctx.complete();
     }
 
-    @GameTest(structureName = EMPTY_STRUCTURE)
+    @GameTest(templateName = EMPTY_STRUCTURE)
     public void itemPickupWorks(TestContext ctx) {
         ServerPlayerEntity player = ctx.spawnServerPlayer(1, 0, 1);
-        ctx.spawnItemEntity(Items.REDSTONE, 1, 1, 1);
+        ctx.spawnItem(Items.REDSTONE, 1, 1, 1);
         ctx.expectEntity(EntityType.ITEM);
         player.playerTick();
-        ctx.expectNoEntity(EntityType.ITEM);
+        ctx.dontExpectEntity(EntityType.ITEM);
         ctx.complete();
     }
 
-    @GameTest(structureName = EMPTY_STRUCTURE)
+    @GameTest(templateName = EMPTY_STRUCTURE)
     public void componentGetsSynced(TestContext ctx) {
         ServerPlayerEntity player = ctx.spawnServerPlayer(1, 0, 1);
         player.getInventory().addLock(lock, DefaultInventoryNodes.INVENTORY);
