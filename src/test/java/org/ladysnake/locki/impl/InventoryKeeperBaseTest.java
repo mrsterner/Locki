@@ -17,7 +17,10 @@
  */
 package org.ladysnake.locki.impl;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import org.junit.jupiter.api.AfterEach;
@@ -42,7 +45,7 @@ public class InventoryKeeperBaseTest {
     @Test
     public void isLocked() {
         InventoryKeeperBase instance = new InventoryKeeperBase();
-        InventoryLock lock = Locki.registerLock(new Identifier("test", "test"));
+        InventoryLock lock = Locki.registerLock(Identifier.of("test", "test"));
         assertFalse(instance.isLocked(DefaultInventoryNodes.HANDS));
         instance.addLock(lock, DefaultInventoryNodes.HANDS);
         assertTrue(instance.isLocked(DefaultInventoryNodes.HANDS));
@@ -53,7 +56,7 @@ public class InventoryKeeperBaseTest {
         assertTrue(instance.isLocked(DefaultInventoryNodes.HANDS));
         assertFalse(instance.isLocked(DefaultInventoryNodes.MAIN_HAND));
         assertTrue(instance.isLocked(DefaultInventoryNodes.OFF_HAND));
-        InventoryLock lock2 = Locki.registerLock(new Identifier("test", "test2"));
+        InventoryLock lock2 = Locki.registerLock(Identifier.of("test", "test2"));
         instance.addLock(lock2, DefaultInventoryNodes.INVENTORY);
         assertEquals(2, instance.getCache().get(DefaultInventoryNodes.HANDS).cardinality());
         assertTrue(instance.isLocked(DefaultInventoryNodes.OFF_HAND));
@@ -75,9 +78,9 @@ public class InventoryKeeperBaseTest {
     @Test
     public void serializesCorrectly() {
         InventoryKeeperBase instance = new InventoryKeeperBase();
-        InventoryLock lock1 = Locki.registerLock(new Identifier("test", "test1"), true);
-        InventoryLock lock2 = Locki.registerLock(new Identifier("test", "test2"), true);
-        InventoryLock lock3 = Locki.registerLock(new Identifier("test", "test3"), false);
+        InventoryLock lock1 = Locki.registerLock(Identifier.of("test", "test1"), true);
+        InventoryLock lock2 = Locki.registerLock(Identifier.of("test", "test2"), true);
+        InventoryLock lock3 = Locki.registerLock(Identifier.of("test", "test3"), false);
         instance.addLock(lock1, DefaultInventoryNodes.HANDS);
         instance.addLock(lock1, DefaultInventoryNodes.ARMOR);
         instance.addLock(lock2, DefaultInventoryNodes.HEAD);
@@ -89,7 +92,7 @@ public class InventoryKeeperBaseTest {
         assertTrue(instance.isLockedBy(lock3, DefaultInventoryNodes.HEAD));
         assertTrue(instance.isLockedBy(lock3, DefaultInventoryNodes.INVENTORY));
         InventoryKeeperBase copy = new InventoryKeeperBase();
-        copy.readFromNbt(Util.make(new NbtCompound(), instance::writeToNbt));
+        copy.readFromNbt(Util.make(new NbtCompound(), nbt -> instance.writeToNbt(nbt, null)), null); //TODO lookup null?
         assertTrue(copy.isLockedBy(lock1, DefaultInventoryNodes.HANDS));
         assertTrue(copy.isLockedBy(lock1, DefaultInventoryNodes.ARMOR));
         assertTrue(copy.isLockedBy(lock1, DefaultInventoryNodes.HEAD));
