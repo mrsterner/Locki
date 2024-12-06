@@ -49,7 +49,7 @@ public class LockiTest {
                 .parallel()
                 .boxed()
                 .map(String::valueOf)
-                .map(Identifier::new)
+                .map(Identifier::of)
                 .map(Locki::registerLock)
                 .toList();
         assertEquals(IntStream.range(0, 2000).boxed().collect(Collectors.toList()), locks.stream().map(InventoryLock::getRawId).sorted().collect(Collectors.toList()));
@@ -57,15 +57,15 @@ public class LockiTest {
 
     @Test
     public void registerLockSeveralTimes() {
-        InventoryLock a = Locki.registerLock(new Identifier("a"));
-        assertEquals(a, Locki.registerLock(new Identifier("a"), true));
-        assertThrows(IllegalStateException.class, () -> Locki.registerLock(new Identifier("a"), false));
+        InventoryLock a = Locki.registerLock(Identifier.of("a"));
+        assertEquals(a, Locki.registerLock(Identifier.of("a"), true));
+        assertThrows(IllegalStateException.class, () -> Locki.registerLock(Identifier.of("a"), false));
     }
 
     @Test
     public void getLock() {
-        Identifier a = new Identifier("test", "a");
-        Identifier b = new Identifier("test", "b");
+        Identifier a = Identifier.of("test", "a");
+        Identifier b = Identifier.of("test", "b");
         InventoryLock lock = Locki.registerLock(a);
         assertEquals(lock, Locki.getLock(a));
         Assertions.assertNull(Locki.getLock(b));
