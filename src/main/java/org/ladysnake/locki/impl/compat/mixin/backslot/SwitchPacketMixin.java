@@ -17,6 +17,7 @@
  */
 package org.ladysnake.locki.impl.compat.mixin.backslot;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.backslot.network.SwitchPacketReceiver;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -33,12 +34,20 @@ public abstract class SwitchPacketMixin {
     public static boolean isItemAllowed(ItemStack stack, int slot) {
         return false;
     }
-
-    @Redirect(method = "receive", at = @At(value = "INVOKE", target = "Lnet/backslot/network/SwitchPacketReceiver;isItemAllowed(Lnet/minecraft/item/ItemStack;I)Z"))
+/*TODO
+    @WrapWithCondition(
+            method = "receive(Lnet/backslot/network/SwitchPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = ""
+            )
+    )
     private boolean lockAdditionalSlots(ItemStack stack, int slot, MinecraftServer server, ServerPlayerEntity player) {
         if (InventoryKeeper.get(player).isSlotLocked(slot)) {
             return false;
         }
         return isItemAllowed(stack, slot);
     }
+
+ */
 }

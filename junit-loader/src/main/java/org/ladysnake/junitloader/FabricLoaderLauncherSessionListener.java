@@ -17,15 +17,15 @@
 package org.ladysnake.junitloader;
 
 import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.impl.launch.knot.Knot;
+import net.fabricmc.loader.impl.util.SystemProperties;
 import org.junit.platform.launcher.LauncherSession;
 import org.junit.platform.launcher.LauncherSessionListener;
-import org.quiltmc.loader.impl.launch.knot.Knot;
-import org.quiltmc.loader.impl.util.SystemProperties;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class QuiltLoaderLauncherSessionListener implements LauncherSessionListener {
+public class FabricLoaderLauncherSessionListener implements LauncherSessionListener {
     static {
         System.setProperty(SystemProperties.DEVELOPMENT, "true");
     }
@@ -34,7 +34,7 @@ public class QuiltLoaderLauncherSessionListener implements LauncherSessionListen
 
     private ClassLoader launcherSessionClassLoader;
 
-    public QuiltLoaderLauncherSessionListener() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public FabricLoaderLauncherSessionListener() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         final Thread currentThread = Thread.currentThread();
         final ClassLoader originalClassLoader = currentThread.getContextClassLoader();
 

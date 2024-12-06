@@ -18,8 +18,8 @@
 package org.ladysnake.locki.impl;
 
 import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
-import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
@@ -39,7 +39,7 @@ public class LockiClientMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT;
+        return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
     }
 
     @Override

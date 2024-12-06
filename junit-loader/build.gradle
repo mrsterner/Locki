@@ -2,10 +2,10 @@ plugins {
     id 'java-library'
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
-archivesBaseName = "quilt-loader-junit"
+archivesBaseName = "fabric-loader-junit"
 version = rootProject.version
 group = rootProject.group
 
@@ -13,21 +13,13 @@ repositories {
     mavenCentral()
 
     maven {
-        name = 'Quilt'
-        url = 'https://maven.quiltmc.org/repository/release'
-    }
-    maven {
-        name = 'Quilt Snapshots'
-        url = 'https://maven.quiltmc.org/repository/snapshot'
-    }
-    maven {
         name = 'Fabric'
         url = 'https://maven.fabricmc.net/'
     }
 }
 
 dependencies {
-    compileOnly "org.quiltmc:quilt-loader:${project.loader_version}"
+    compileOnly "net.fabricmc:fabric-loader:${project.loader_version}"
 
     api platform("org.junit:junit-bom:5.9.2")
     api "org.junit.jupiter:junit-jupiter-engine"

@@ -17,6 +17,8 @@
  */
 package org.ladysnake.locki.impl.mixin;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -29,7 +31,6 @@ import org.ladysnake.locki.InventoryNode;
 import org.ladysnake.locki.impl.LockiComponents;
 import org.ladysnake.locki.impl.PlayerInventoryKeeper;
 import org.objectweb.asm.Opcodes;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -111,7 +112,7 @@ public abstract class PlayerInventoryMixin implements InventoryKeeper {
         this.locki$keeper = LockiComponents.INVENTORY_KEEPER.maybeGet(player).orElse(null);
     }
 
-    @ClientOnly
+    @Environment(EnvType.CLIENT)
     @Inject(method = {"addPickBlock", "scrollInHotbar"},
         at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/entity/player/PlayerInventory;selectedSlot:I", shift = At.Shift.AFTER)
     )

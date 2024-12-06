@@ -18,8 +18,12 @@
 package org.ladysnake.locki.impl.mixin.client;
 
 import com.google.common.base.Suppliers;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReceiver;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.slot.Slot;
@@ -36,11 +40,12 @@ import java.util.function.Supplier;
 
 @Mixin(HandledScreen.class)
 public abstract class HandledScreenMixin {
+
     @Unique
     private static final Supplier<Pair<Identifier, Identifier>> LOCKED_SPRITE_REF = Suppliers.memoize(() -> com.mojang.datafixers.util.Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, LockiClient.LOCKED_SLOT_SPRITE));
 
-    @ModifyVariable(method = "drawSlot", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/screen/slot/Slot;getBackgroundSprite()Lcom/mojang/datafixers/util/Pair;"))
-    private @Nullable Pair<Identifier, Identifier> replaceSprite(@Nullable Pair<Identifier, Identifier> baseSprite, GuiGraphics graphics, Slot slot) {
+    @ModifyExpressionValue(method = "drawSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/screen/slot/Slot;getBackgroundSprite()Lcom/mojang/datafixers/util/Pair;"))
+    private @Nullable Pair<Identifier, Identifier> replaceSprite(@Nullable Pair<Identifier, Identifier> baseSprite, DrawContext graphics, Slot slot) {
         if (((LockableSlot) slot).locki$shouldBeLocked()) {
             return HandledScreenMixin.LOCKED_SPRITE_REF.get();
         }

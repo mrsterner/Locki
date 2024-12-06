@@ -1,37 +1,35 @@
 {
-  "schema_version": 1,
-  "quilt_loader": {
-    "group": "org.ladysnake",
-    "id": "lockii",
-    "version": "${version}",
-    "metadata": {
-      "name": "Locki Test Mod",
-      "description": "It's just a test... Or is it ?",
-      "license": "LGPL-3.0-or-later",
-      "icon": "assets/icon.png",
-      "authors": [
-        "Pyrofab"
-      ],
-      "contact": {
-        "sources": "https://github.com/Ladysnake/Locki",
-        "issues": "https://github.com/Ladysnake/Locki/issues",
-        "discord": "ladysnake.glitch.me/discord"
-      }
-    },
-    "entrypoints": {
-      "main": [
-        "org.ladysnake.lockii.Lockii"
-      ],
-      "fabric-gametest": [
-        "org.ladysnake.lockii.tests.LockiTestSuite"
-      ]
-    },
-    "depends": [
-      "locki"
-    ],
-    "intermediate_mappings": "net.fabricmc:intermediary"
+  "schemaVersion": 1,
+  "id": "lockii",
+  "version": "${version}",
+
+  "name": "Locki Test Mod",
+  "description": "It's just a test... Or is it?",
+  "license": "LGPL-3.0-or-later",
+  "icon": "assets/icon.png",
+
+  "authors": [
+    "Pyrofab"
+  ],
+  "contact": {
+    "sources": "https://github.com/Ladysnake/Locki",
+    "issues": "https://github.com/Ladysnake/Locki/issues",
+    "discord": "ladysnake.glitch.me/discord"
   },
-  "minecraft": {
-    "environment": "*"
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.ladysnake.lockii.Lockii"
+    ],
+    "fabric-gametest": [
+      "org.ladysnake.lockii.tests.LockiTestSuite"
+    ]
+  },
+
+  "depends": {
+    "minecraft": "*",
+    "fabricloader": "*",
+    "locki": "*"
   }
 }

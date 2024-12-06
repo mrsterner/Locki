@@ -17,8 +17,8 @@
  */
 package org.ladysnake.locki.impl.compat;
 
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
-import org.quiltmc.loader.api.QuiltLoader;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
@@ -45,7 +45,7 @@ public final class LockiCompatMixinPlugin implements IMixinConfigPlugin {
         Matcher matcher = mixinPattern.matcher(mixinClassName);
         if (!matcher.matches()) throw new IllegalStateException("Bad mixin name " + mixinClassName);
         String modId = matcher.group("modid");
-        return QuiltLoader.isModLoaded(modId);
+        return FabricLoader.getInstance().isModLoaded(modId);
     }
 
     @Override

@@ -24,7 +24,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.command.argument.SingletonArgumentInfo;
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
@@ -157,8 +157,14 @@ public final class Locki implements ModInitializer {
     @Override
     public void onInitialize() {
         this.baseInit();
-        ArgumentTypeRegistry.registerArgumentType(id("inventory_lock"), InventoryLockArgumentType.class, SingletonArgumentInfo.contextFree(InventoryLockArgumentType::inventoryLock));
-        ArgumentTypeRegistry.registerArgumentType(id("inventory_node"), InventoryNodeArgumentType.class, SingletonArgumentInfo.contextFree(InventoryNodeArgumentType::inventoryNode));
+        ArgumentTypeRegistry.registerArgumentType(id("inventory_lock"),
+                InventoryLockArgumentType.class,
+                ConstantArgumentSerializer.of(InventoryLockArgumentType::inventoryLock)
+        );
+        ArgumentTypeRegistry.registerArgumentType(id("inventory_node"),
+                InventoryNodeArgumentType.class,
+                ConstantArgumentSerializer.of(InventoryNodeArgumentType::inventoryNode)
+        );
     }
 
     void baseInit() {

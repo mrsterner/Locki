@@ -46,7 +46,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
         return this.locki$craftingBookButton;
     }
 
-    @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/InventoryScreen;addDrawableSelectableElement(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"), allow = 1)
+    @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/InventoryScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"), allow = 1)
     private Element captureCraftingBookButton(Element button) {
         this.locki$craftingBookButton = (ClickableWidget) button;
 
